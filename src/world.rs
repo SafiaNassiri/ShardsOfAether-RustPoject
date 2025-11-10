@@ -132,11 +132,11 @@ pub fn take_item(item_name: &str, player: &mut Player, world: &mut World) {
             println!("You picked up: {}", item.name);
             player.inventory.push(item.clone());
 
-            // Tutorial completion condition
-            if item.name.eq_ignore_ascii_case("Amulet") && !player.flags.contains(&"tutorial_completed".to_string()) {
-                println!("✨ The amulet glows faintly... You feel a new path has opened.");
-                player.flags.push("tutorial_completed".to_string());
+            // PRompt user to take the amulet to the altar
+            if item.name.eq_ignore_ascii_case("Amulet") {
+                println!("✨ You picked up the Amulet. You must bring it to the Sacred Altar to activate it.");
             }
+
         } else {
             println!("There is no {} here.", item_name);
         }
@@ -164,10 +164,16 @@ pub fn use_item(item_name: &str, player: &mut Player, world: &World) {
             ItemType::Quest => {
                 if let Some(target) = &item.usable_on {
                     if player.current_room.as_str() == target.as_str() {
-                        println!("✨ You use the {} at the {}. Level complete!", item.name, target);
+                        println!("✨ You place the {} on the {}. The path forward is revealed!", item.name, target);
 
+                        if !player.flags.contains(&"tutorial_completed".to_string()) {
+                            player.flags.push("tutorial_completed".to_string());
+                        }
+
+                        // If you have a level progression mechanic, mark level1 completed here
                         if !player.flags.contains(&"level1_completed".to_string()) {
                             player.flags.push("level1_completed".to_string());
+                            println!("🏆 Tutorial completed! You may proceed to the next area.");
                         }
                     } else {
                         println!("The {} glows faintly, but nothing happens here.", item.name);
@@ -184,7 +190,6 @@ pub fn use_item(item_name: &str, player: &mut Player, world: &World) {
             }
         }
 
-        // ✅ Always print map if the item is called "map"
         if item.name.to_lowercase() == "map" {
             print_map(player, world);
         }
@@ -195,14 +200,13 @@ pub fn use_item(item_name: &str, player: &mut Player, world: &World) {
 }
 
 pub fn print_map(player: &Player, world: &World) {
-    use std::cmp::{min, max};
-
     println!("--- Map ---");
 
     let mut positions: HashMap<String, (i32, i32)> = HashMap::new();
     let mut visited: HashSet<String> = HashSet::new();
     let mut queue: VecDeque<(String, i32, i32)> = VecDeque::new();
 
+    // Start BFS from player
     queue.push_back((player.current_room.clone(), 0, 0));
     positions.insert(player.current_room.clone(), (0, 0));
 
@@ -226,6 +230,7 @@ pub fn print_map(player: &Player, world: &World) {
         }
     }
 
+    // Determine grid size
     let min_x = positions.values().map(|(x, _)| *x).min().unwrap_or(0);
     let max_x = positions.values().map(|(x, _)| *x).max().unwrap_or(0);
     let min_y = positions.values().map(|(_, y)| *y).min().unwrap_or(0);
@@ -233,53 +238,41 @@ pub fn print_map(player: &Player, world: &World) {
 
     let width = (max_x - min_x + 1) as usize;
     let height = (max_y - min_y + 1) as usize;
+    let cell_width = world.rooms.keys().map(|id| id.len()).max().unwrap_or(5) + 4;
 
-    // Room grid
-    let mut grid: Vec<Vec<String>> = vec![vec!["     ".to_string(); width]; height];
+    let mut grid: Vec<Vec<String>> = vec![vec![" ".repeat(cell_width); width * 2 - 1]; height * 2 - 1];
 
-    // Place rooms
-    let cell_width = world.rooms.keys().map(|id| id.len()).max().unwrap_or(5) + 2;
+    // Place rooms and connectors
     for (room_id, (x, y)) in &positions {
-        let px = (*x - min_x) as usize;
-        let py = (*y - min_y) as usize;
-        let marker = if room_id == &player.current_room { "🧍" } else { " " };
-        grid[py][px] = format!("{:^width$}", format!("{}{}", marker, room_id), width = cell_width);
-    }
+        let gx = ((*x - min_x) * 2) as usize;
+        let gy = ((*y - min_y) * 2) as usize;
 
-    // Print row by row with arrows
-    for y in 0..height {
-        // Print rooms
-        for x in 0..width {
-            print!("{}", grid[y][x]);
-            if x < width - 1 {
-                // horizontal arrow
-                for (room_id, (rx, ry)) in &positions {
-                    if *rx == (x as i32 + min_x) && *ry == (y as i32 + min_y) {
-                        if let Some(room) = world.rooms.get(room_id) {
-                            if room.exits.contains_key("east") { print!("→"); } else { print!(" "); }
-                        }
+        // Room name with player marker
+        let marker = if room_id == &player.current_room { "🧍 " } else { "  " };
+        grid[gy][gx] = format!("{:^width$}", format!("{}{}", marker, room_id), width = cell_width);
+
+        // Add connectors
+        if let Some(room) = world.rooms.get(room_id) {
+            for (dir, target) in &room.exits {
+                if let Some(&(tx, ty)) = positions.get(target) {
+                    let connector_x = ((x + tx - min_x * 2) as i32) / 2;
+                    let connector_y = ((y + ty - min_y * 2) as i32) / 2;
+
+                    let gx_conn = ((*x - min_x) * 2 + (tx - x)) as usize;
+                    let gy_conn = ((*y - min_y) * 2 + (ty - y)) as usize;
+
+                    if gx_conn < grid[0].len() && gy_conn < grid.len() {
+                        let conn_symbol = if tx != *x { "───" } else { "│" };
+                        grid[gy_conn][gx_conn] = format!("{:^width$}", conn_symbol, width = cell_width);
                     }
                 }
             }
         }
-        println!();
-
-        // Print vertical arrows between rows
-        if y < height - 1 {
-            for x in 0..width {
-                let mut arrow = " ".to_string();
-                for (room_id, (rx, ry)) in &positions {
-                    if *rx == (x as i32 + min_x) && *ry == (y as i32 + min_y) {
-                        if let Some(room) = world.rooms.get(room_id) {
-                            if room.exits.contains_key("south") { arrow = "↓".to_string(); }
-                        }
-                    }
-                }
-                print!("{:^width$}", arrow, width = cell_width);
-            }
-            println!();
-        }
     }
 
+    // Print
+    for row in grid {
+        println!("{}", row.join(""));
+    }
     println!("-----------");
 }
