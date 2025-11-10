@@ -26,13 +26,16 @@
           "power": null
         }
       ],
-      "exits": { "south": "tutorial_hall" }
+      "exits": {
+        "south": "tutorial_hall",
+        "east": "sacred_altar"
+      }
     },
     "sacred_altar": {
       "id": "sacred_altar",
       "description": "An ancient stone altar. A glowing aura fills the room.",
       "items": [],
-      "exits": {},
+      "exits": { "west": "tutorial_library" },
       "enemy": null
     }
   }

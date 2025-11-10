@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet, VecDeque};
 use crate::player::Player;
 use crate::enemies::get_enemy_by_name; 
 use crate::combat::start_combat;
@@ -175,9 +175,6 @@ pub fn use_item(item_name: &str, player: &mut Player, world: &World) {
                 } else {
                     println!("You use the {}.", item.name);
                 }
-                if item.name.to_lowercase() == "map" {
-                    print_map(player, world);
-                }
             },
             ItemType::Utility => {
                 println!("You use the {}.", item.name);
@@ -186,33 +183,103 @@ pub fn use_item(item_name: &str, player: &mut Player, world: &World) {
                 }
             }
         }
+
+        // ✅ Always print map if the item is called "map"
+        if item.name.to_lowercase() == "map" {
+            print_map(player, world);
+        }
+
     } else {
         println!("You don't have a '{}' in your inventory.", item_name);
     }
 }
 
-
-
 pub fn print_map(player: &Player, world: &World) {
-    println!("--- Map ---");
-    for (room_id, room) in &world.rooms {
-        // Marker for player's current location
-        let marker = if room_id == &player.current_room { "🧍 You are here: " } else { " " };
+    use std::cmp::{min, max};
 
-        // Collect items relevant to completing the level
-        let mut hints = Vec::new();
-        for item in &room.items {
-            if ["Amulet", "Healing Herb", "map"].contains(&item.name.as_str()) {
-                hints.push(item.name.clone());
+    println!("--- Map ---");
+
+    let mut positions: HashMap<String, (i32, i32)> = HashMap::new();
+    let mut visited: HashSet<String> = HashSet::new();
+    let mut queue: VecDeque<(String, i32, i32)> = VecDeque::new();
+
+    queue.push_back((player.current_room.clone(), 0, 0));
+    positions.insert(player.current_room.clone(), (0, 0));
+
+    while let Some((room_id, x, y)) = queue.pop_front() {
+        if visited.contains(&room_id) { continue; }
+        visited.insert(room_id.clone());
+
+        if let Some(room) = world.rooms.get(&room_id) {
+            for (dir, target) in &room.exits {
+                if positions.contains_key(target) { continue; }
+                let (nx, ny) = match dir.as_str() {
+                    "north" => (x, y - 1),
+                    "south" => (x, y + 1),
+                    "east"  => (x + 1, y),
+                    "west"  => (x - 1, y),
+                    _ => (x, y),
+                };
+                positions.insert(target.clone(), (nx, ny));
+                queue.push_back((target.clone(), nx, ny));
             }
         }
+    }
 
-        // Print compact info line
-        if hints.is_empty() {
-            println!("{} {}", marker, room_id);
-        } else {
-            println!("{} {} [{}]", marker, room_id, hints.join(", "));
+    let min_x = positions.values().map(|(x, _)| *x).min().unwrap_or(0);
+    let max_x = positions.values().map(|(x, _)| *x).max().unwrap_or(0);
+    let min_y = positions.values().map(|(_, y)| *y).min().unwrap_or(0);
+    let max_y = positions.values().map(|(_, y)| *y).max().unwrap_or(0);
+
+    let width = (max_x - min_x + 1) as usize;
+    let height = (max_y - min_y + 1) as usize;
+
+    // Room grid
+    let mut grid: Vec<Vec<String>> = vec![vec!["     ".to_string(); width]; height];
+
+    // Place rooms
+    let cell_width = world.rooms.keys().map(|id| id.len()).max().unwrap_or(5) + 2;
+    for (room_id, (x, y)) in &positions {
+        let px = (*x - min_x) as usize;
+        let py = (*y - min_y) as usize;
+        let marker = if room_id == &player.current_room { "🧍" } else { " " };
+        grid[py][px] = format!("{:^width$}", format!("{}{}", marker, room_id), width = cell_width);
+    }
+
+    // Print row by row with arrows
+    for y in 0..height {
+        // Print rooms
+        for x in 0..width {
+            print!("{}", grid[y][x]);
+            if x < width - 1 {
+                // horizontal arrow
+                for (room_id, (rx, ry)) in &positions {
+                    if *rx == (x as i32 + min_x) && *ry == (y as i32 + min_y) {
+                        if let Some(room) = world.rooms.get(room_id) {
+                            if room.exits.contains_key("east") { print!("→"); } else { print!(" "); }
+                        }
+                    }
+                }
+            }
+        }
+        println!();
+
+        // Print vertical arrows between rows
+        if y < height - 1 {
+            for x in 0..width {
+                let mut arrow = " ".to_string();
+                for (room_id, (rx, ry)) in &positions {
+                    if *rx == (x as i32 + min_x) && *ry == (y as i32 + min_y) {
+                        if let Some(room) = world.rooms.get(room_id) {
+                            if room.exits.contains_key("south") { arrow = "↓".to_string(); }
+                        }
+                    }
+                }
+                print!("{:^width$}", arrow, width = cell_width);
+            }
+            println!();
         }
     }
+
     println!("-----------");
 }
