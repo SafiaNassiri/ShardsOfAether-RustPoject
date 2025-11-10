@@ -1,0 +1,9 @@
+# Rust build files
+/target
+**/*.rs.bk
+**/*.exe
+Cargo.lock
+
+# IDE files
+.vscode/
+.idea/

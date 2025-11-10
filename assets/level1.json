@@ -1,0 +1,44 @@
+{
+  "rooms": {
+    "forest_entrance": {
+      "id": "forest_entrance",
+      "description": "You step into the lush forest. Birds chirp in the trees.",
+      "exits": {
+        "north": "deep_forest"
+      },
+      "items": [
+        {
+          "name": "Healing Herb",
+          "description": "A small herb that restores 20 HP when used.",
+          "usable_on": null
+        }
+      ],
+      "enemy": null
+    },
+    "deep_forest": {
+      "id": "deep_forest",
+      "description": "The forest thickens here. Shadows move between the trees.",
+      "exits": {
+        "south": "forest_entrance",
+        "north": "forest_clearing"
+      },
+      "items": [],
+      "enemy": "Goblin"
+    },
+    "forest_clearing": {
+      "id": "forest_clearing",
+      "description": "A sunlit clearing opens before you. The air feels strange.",
+      "exits": {
+        "south": "deep_forest"
+      },
+      "items": [
+        {
+          "name": "Rusty Sword",
+          "description": "An old sword left by another adventurer. Increases attack.",
+          "usable_on": null
+        }
+      ],
+      "enemy": "Skeleton"
+    }
+  }
+}

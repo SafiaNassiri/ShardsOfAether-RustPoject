@@ -1,0 +1,18 @@
+{
+  "enemies": {
+    "Goblin": {
+      "name": "Goblin",
+      "description": "A sneaky little creature with a rusty dagger.",
+      "health": 25,
+      "attack": 6,
+      "xp_reward": 10
+    },
+    "Skeleton": {
+      "name": "Skeleton",
+      "description": "A reanimated warrior of bone and rage.",
+      "health": 40,
+      "attack": 8,
+      "xp_reward": 15
+    }
+  }
+}
