@@ -5,6 +5,7 @@ mod utils;
 mod world;
 mod combat;
 mod enemies;
+mod colors;
 
 use std::error::Error;
 use std::io::{stdout, Write};
@@ -14,6 +15,7 @@ use player::Player;
 use storage::{load_game, load_world, save_game};
 use utils::get_input;
 use enemies::load_enemies;
+use colors::{MessageType, colored_text};
 
 fn main() {
     // --- Load dynamic data ---
@@ -34,12 +36,12 @@ fn main() {
     // --- Load the initial level ---
     let mut world = load_level(&player).expect("Failed to load initial world");
 
-    println!("Welcome, {} the Adventurer!", player.name);
+    println!("{}", colored_text(&format!("Welcome, {} the Adventurer!", player.name), MessageType::Info));
     world::look(&player, &world);
 
     // --- Main game loop ---
     loop {
-        print!("\n> ");
+        print!("{}", colored_text("\n> ", MessageType::Action));
         stdout().flush().unwrap();
 
         let input = get_input().to_lowercase();
@@ -55,7 +57,7 @@ fn main() {
                 if player.flags.contains(&"tutorial_completed".to_string())
                     && !player.flags.contains(&"level1_loaded".to_string())
                 {
-                    println!("\n✨ Tutorial complete! Loading Level 1 ...");
+                    println!("{}", colored_text("\n✨ Tutorial complete! Loading Level 1 ...", MessageType::Info));
                     player.flags.push("level1_loaded".to_string());
 
                     // Load Level 1 explicitly
@@ -67,23 +69,28 @@ fn main() {
                 }
             }
             Command::Use(item) => world::use_item(&item, &mut player, &world),
-            Command::Inventory => println!(
-                "Inventory: {:?}",
-                player.inventory.iter().map(|i| &i.name).collect::<Vec<_>>()
-            ),
+            Command::Inventory => {
+                let inventory_display = player
+                    .inventory
+                    .iter()
+                    .map(|i| i.name.as_str()) // convert &String -> &str
+                    .collect::<Vec<_>>()
+                    .join(", ");
+                println!("{}", colored_text(&format!("Inventory: [{}]", inventory_display), MessageType::Item));
+            }
             Command::Save => {
                 save_game(&player, "save.json").unwrap();
-                println!("Game saved!");
+                println!("{}", colored_text("Game saved!", MessageType::Info));
             }
             Command::Load => {
                 load_game(&mut player, "save.json").unwrap();
-                println!("Game loaded!");
+                println!("{}", colored_text("Game loaded!", MessageType::Info));
             }
             Command::Quit => {
-                println!("Farewell, brave adventurer!");
+                println!("{}", colored_text("Farewell, brave adventurer!", MessageType::Info));
                 break;
             }
-            Command::Unknown(cmd) => println!("Unknown command: {}", cmd),
+            Command::Unknown(cmd) => println!("{}", colored_text(&format!("Unknown command: {}", cmd), MessageType::Warning)),
         }
     }
 }

@@ -7,7 +7,7 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
 
     loop {
         println!("\n❤️ Your HP: {} | 💀 {}’s HP: {}", player.health, enemy.name, enemy.health);
-        println!("Choose an action (attack / defend / run):");
+        println!("Choose an action (attack / heal / defend / run):");
 
         let action = crate::utils::get_input().to_lowercase();
 
@@ -20,13 +20,27 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
                     return false; // combat over, not running
                 }
             }
+            "heal" => {
+                // Find first Healing item in inventory
+                if let Some(pos) = player.inventory.iter().position(|i| matches!(i.item_type, crate::world::ItemType::Healing)) {
+                    let item = player.inventory.remove(pos);
+                    if let Some(amount) = item.power {
+                        player.health += amount;
+                        println!("💖 You use {} and restore {} HP! Current HP: {}", item.name, amount, player.health);
+                    } else {
+                        println!("💖 You use {}, but it had no effect.", item.name);
+                    }
+                } else {
+                    println!("You have no healing items!");
+                }
+            }
             "defend" => println!("🛡️ You brace yourself!"),
             "run" => {
                 println!("🏃 You flee from the battle!");
                 player.current_room = previous_room.to_string(); // move back
                 return true; // signal that player ran away
             }
-            _ => println!("Unknown action. Type attack / defend / run."),
+            _ => println!("Unknown action. Type attack / heal / defend / run."),
         }
 
         // Enemy attacks if still alive
@@ -34,6 +48,11 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
             let damage = enemy.attack; // customize damage calculation
             player.health -= damage;
             println!("The {} attacks you for {} damage!", enemy.name, damage);
+
+            if player.health <= 0 {
+                println!("💀 You have been defeated!");
+                return false; // combat ends
+            }
         }
     }
 }

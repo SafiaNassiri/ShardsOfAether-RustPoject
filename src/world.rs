@@ -3,14 +3,24 @@ use std::collections::HashMap;
 use crate::player::Player;
 use crate::enemies::get_enemy_by_name; 
 use crate::combat::start_combat;
+use crate::colors::{colored_text, MessageType};
+
+#[derive(Serialize, Deserialize, Clone)]
+pub enum ItemType {
+    Healing,      // Restores health or stamina
+    Weapon,       // Increases attack
+    Quest,        // Special items like Mystic Amulet
+    Utility,      // Miscellaneous items like Water Flask
+}
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Item {
     pub name: String,
     pub description: String,
     pub usable_on: Option<String>,
+    pub item_type: ItemType,
+    pub power: Option<i32>,
 }
-
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Room {
     pub id: String,
@@ -81,24 +91,35 @@ pub fn move_player(direction: String, player: &mut Player, world: &mut World) {
 // Describe the current room
 pub fn look(player: &Player, world: &World) {
     if let Some(room) = world.rooms.get(&player.current_room) {
+        // Print room name/title in a distinct color (e.g., cyan)
+        println!("{}", colored_text(&room.id, MessageType::Action));
+
+        // Print room description
         println!("\n{}", room.description);
 
+        // Items in the room
         if !room.items.is_empty() {
             println!("You see:");
             for item in &room.items {
-                println!(" - {}", item.name);
+                println!(" - {}", colored_text(&item.name, MessageType::Item));
             }
         }
 
+        // Exits
         if !room.exits.is_empty() {
             println!(
                 "Exits: {}",
-                room.exits.keys().cloned().collect::<Vec<_>>().join(", ")
+                room.exits.keys()
+                    .cloned()
+                    .map(|e| colored_text(&e, MessageType::Action).to_string())
+                    .collect::<Vec<_>>()
+                    .join(", ")
             );
         }
 
+        // Enemy alert
         if let Some(enemy_name) = &room.enemy {
-            println!("⚠️ You sense danger nearby... ({})", enemy_name);
+            println!("⚠️ {}", colored_text(&format!("You sense danger nearby... ({})", enemy_name), MessageType::Enemy));
         }
     }
 }
@@ -127,21 +148,50 @@ pub fn use_item(item_name: &str, player: &mut Player, world: &World) {
     if let Some(pos) = player.inventory.iter().position(|i| i.name.eq_ignore_ascii_case(item_name)) {
         let item = &player.inventory[pos];
 
-        match item.name.to_lowercase().as_str() {
-            "map" => {
-                println!("🗺️ You unfold the map. Here's where you   are:");
-                print_map(player, world);
+        match item.item_type {
+            ItemType::Healing => {
+                if let Some(amount) = item.power {
+                    player.health += amount;
+                    println!("💖 You feel rejuvenated! Health +{} (current: {})", amount, player.health);
+                }
+            },  
+            ItemType::Weapon => {
+                if let Some(dmg) = item.power {
+                    player.base_attack += dmg;
+                    println!("⚔️ You equip {}. Attack increased by {}!", item.name, dmg);
+                }
             },
-            "health potion" => {
-                player.health += 20;
-                println!("You feel rejuvenated! ❤️ Health restored to {}", player.health);
+            ItemType::Quest => {
+                if let Some(target) = &item.usable_on {
+                    if player.current_room.as_str() == target.as_str() {
+                        println!("✨ You use the {} at the {}. Level complete!", item.name, target);
+
+                        if !player.flags.contains(&"level1_completed".to_string()) {
+                            player.flags.push("level1_completed".to_string());
+                        }
+                    } else {
+                        println!("The {} glows faintly, but nothing happens here.", item.name);
+                    }
+                } else {
+                    println!("You use the {}.", item.name);
+                }
+                if item.name.to_lowercase() == "map" {
+                    print_map(player, world);
+                }
             },
-            _ => println!("You use the {}.", item.name),
+            ItemType::Utility => {
+                println!("You use the {}.", item.name);
+                if item.name.to_lowercase() == "water flask" {
+                    println!("💧 You refill the flask at the river or restore stamina.");
+                }
+            }
         }
     } else {
         println!("You don't have a '{}' in your inventory.", item_name);
     }
 }
+
+
 
 pub fn print_map(player: &Player, world: &World) {
     println!("--- Map ---");

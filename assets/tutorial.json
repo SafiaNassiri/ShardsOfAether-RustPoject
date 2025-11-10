@@ -1,30 +1,39 @@
 {
-    "rooms": {
-        "tutorial_hall": {
-            "id": "tutorial_hall",
-            "description": "Welcome to the Guild Hall! Learn to move by typing north, east, south, or west.",
-            "items": [
-                {
-                    "name": "map",
-                    "description": "A simple map showing your starting area."
-                }
-            ],
-            "exits": {
-                "north": "tutorial_library"
-            }
-        },
-        "tutorial_library": {
-            "id": "tutorial_library",
-            "description": "Shelves of dusty books tower above you. You see the Adventurer's Amulet.",
-            "items": [
-                {
-                    "name": "Amulet",
-                    "description": "Your first magical item. Taking this completes the tutorial."
-                }
-            ],
-            "exits": {
-                "south": "tutorial_hall"
-            }
+  "rooms": {
+    "tutorial_hall": {
+      "id": "tutorial_hall",
+      "description": "Welcome to the Guild Hall! Learn to move by typing north, east, south, or west.",
+      "items": [
+        {
+          "name": "map",
+          "description": "A simple map showing your starting area.",
+          "usable_on": null,
+          "item_type": "Utility",
+          "power": null
         }
+      ],
+      "exits": { "north": "tutorial_library" }
+    },
+    "tutorial_library": {
+      "id": "tutorial_library",
+      "description": "Shelves of dusty books tower above you. You see the Adventurer's Amulet.",
+      "items": [
+        {
+          "name": "Amulet",
+          "description": "Your first magical item. Taking this completes the tutorial.",
+          "usable_on": "sacred_altar",
+          "item_type": "Quest",
+          "power": null
+        }
+      ],
+      "exits": { "south": "tutorial_hall" }
+    },
+    "sacred_altar": {
+      "id": "sacred_altar",
+      "description": "An ancient stone altar. A glowing aura fills the room.",
+      "items": [],
+      "exits": {},
+      "enemy": null
     }
+  }
 }

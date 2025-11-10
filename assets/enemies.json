@@ -13,6 +13,20 @@
       "health": 40,
       "attack": 8,
       "xp_reward": 15
+    },
+    "Forest Wolf": {
+      "name": "Forest Wolf",
+      "description": "A wild wolf that stalks the forest. Quick and dangerous.",
+      "health": 30,
+      "attack": 10,
+      "xp_reward": 12
+    },
+    "Bandit": {
+      "name": "Bandit",
+      "description": "A rogue human who preys on travelers.",
+      "health": 35,
+      "attack": 9,
+      "xp_reward": 15
     }
   }
 }
