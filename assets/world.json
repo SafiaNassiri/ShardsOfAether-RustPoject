@@ -1,39 +1,26 @@
 {
-    "rooms": {
-        "hall": {
-            "id": "hall",
-            "description": "You are standing in a grand hall with a glittering chandelier.",
-            "items": [
-                {
-                    "name": "rusty key",
-                    "description": "An old, rusty key. I wonder what it opens."
-                }
-            ],
-            "exits": {
-                "north": "library",
-                "east": "kitchen"
-            }
+  "rooms": {
+    "sanctum": {
+      "id": "sanctum",
+      "description": "You enter the Sanctum of Aether. All the shards, relics, and mystical amulets glow peacefully. You did it! The Realm is safe.",
+      "items": [
+        {
+          "name": "Shards of Aether",
+          "description": "The collected shards shimmer in unison."
         },
-        "library": {
-            "id": "library",
-            "description": "Shelves of dusty books tower above you.",
-            "items": [
-                {
-                    "name": "spellbook",
-                    "description": "A thick book filled with arcane runes."
-                }
-            ],
-            "exits": {
-                "south": "hall"
-            }
+        {
+          "name": "Mystic Amulet",
+          "description": "The amulet radiates calm power."
         },
-        "kitchen": {
-            "id": "kitchen",
-            "description": "The kitchen smells of fresh bread. Pots and pans hang from the ceiling.",
-            "items": [],
-            "exits": {
-                "west": "hall"
-            }
+        {
+          "name": "Ancient Relic",
+          "description": "Dormant now, it lies peacefully."
         }
+      ],
+      "exits": {},
+      "enemy": null,
+      "x": 0,
+      "y": 0
     }
+  }
 }

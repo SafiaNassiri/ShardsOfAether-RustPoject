@@ -1,39 +1,39 @@
 use serde::{Serialize, Deserialize};
 use crate::items::Item;
 
-#[derive(Serialize, Deserialize)]
-#[derive(Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Player {
     pub name: String,
-    pub current_room: String,
-    pub inventory: Vec<Item>,
     pub health: i32,
     pub mana: i32,
-    pub flags: Vec<String>,
-    pub base_attack: i32,
-    pub level: i32,
     pub xp: i32,
+    pub level: i32,
+    pub base_attack: i32,
+    pub current_room: String,
+    pub inventory: Vec<Item>,
+    pub flags: Vec<String>,
+    pub current_level: usize, // level of the world (not XP level)
 }
 
-#[allow(dead_code)]
 impl Player {
     pub fn new() -> Self {
         Self {
             name: "Hero".to_string(),
-            current_room: "hall".to_string(),
-            inventory: Vec::new(),
             health: 100,
             mana: 50,
             xp: 0,
             level: 1,
             base_attack: 10,
+            current_room: "tutorial_hall".to_string(),
+            inventory: Vec::new(),
             flags: Vec::new(),
+            current_level: 0, // 0 = tutorial, 1 = level1, 2 = level2, etc.
         }
     }
 
     /// XP required for next level
     pub fn xp_to_next_level(&self) -> i32 {
-        50 * self.level // scales linearly; can adjust to exponential if desired
+        50 * self.level // scales linearly; tweak to exponential if desired
     }
 
     /// Called when player gains XP
@@ -60,6 +60,7 @@ impl Player {
         );
     }
 
+    /// Returns player’s damage output (based on attack and XP level)
     pub fn attack_damage(&self) -> i32 {
         self.base_attack + (self.level * 2)
     }

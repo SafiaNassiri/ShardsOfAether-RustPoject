@@ -1,0 +1,105 @@
+{
+  "rooms": {
+    "desert_edge": {
+      "id": "desert_edge",
+      "description": "You arrive at the edge of a vast golden desert. The wind carries whispers of forgotten songs.",
+      "exits": { "east": "dune_passage", "south": "oasis" },
+      "items": [
+        {
+          "name": "Sand Cloak",
+          "description": "A light cloak that protects you from the desert heat. Slightly increases defense.",
+          "item_type": "Utility"
+        }
+      ],
+      "enemy": null,
+      "x": 0,
+      "y": 0
+    },
+    "oasis": {
+      "id": "oasis",
+      "description": "Palm trees surround a glimmering pool. The air is cool and refreshing here.",
+      "exits": { "north": "desert_edge", "east": "abandoned_camp" },
+      "items": [
+        {
+          "name": "Healing Water",
+          "description": "Water from the oasis that restores 30 HP.",
+          "item_type": "Healing",
+          "power": 30
+        }
+      ],
+      "enemy": null,
+      "x": 0,
+      "y": 1
+    },
+    "dune_passage": {
+      "id": "dune_passage",
+      "description": "Tall dunes surround you. The heat is blinding, and the ground shifts beneath your feet.",
+      "exits": {
+        "west": "desert_edge",
+        "east": "ancient_gate",
+        "south": "abandoned_camp"
+      },
+      "items": [],
+      "enemy": "Scarab",
+      "x": 1,
+      "y": 0
+    },
+    "abandoned_camp": {
+      "id": "abandoned_camp",
+      "description": "Torn tents and scattered pottery lie half-buried in sand. Someone fled in a hurry.",
+      "exits": { "west": "oasis", "north": "dune_passage" },
+      "items": [
+        {
+          "name": "Scimitar",
+          "description": "A curved blade from distant lands. Increases attack by 8.",
+          "item_type": "Weapon",
+          "power": 8
+        }
+      ],
+      "enemy": "Sand Raider",
+      "x": 1,
+      "y": 1
+    },
+    "ancient_gate": {
+      "id": "ancient_gate",
+      "description": "A colossal sandstone gate stands half-buried. Runes glow faintly on its surface.",
+      "exits": { "west": "dune_passage", "east": "sunken_ruins" },
+      "items": [
+        {
+          "name": "Golden Key",
+          "description": "A heavy, ornate key that radiates warmth. It seems to fit something ancient.",
+          "usable_on": "sunken_ruins",
+          "item_type": "Quest"
+        }
+      ],
+      "enemy": "Scarab",
+      "x": 2,
+      "y": 0
+    },
+    "sunken_ruins": {
+      "id": "sunken_ruins",
+      "description": "Collapsed pillars and carvings of forgotten gods surround you. Sand trickles from the ceiling.",
+      "exits": { "west": "ancient_gate", "north": "crystal_chamber" },
+      "items": [],
+      "enemy": "Guardian Statue",
+      "x": 3,
+      "y": 0
+    },
+    "crystal_chamber": {
+      "id": "crystal_chamber",
+      "description": "A radiant chamber hidden beneath the dunes. Crystals pulse with golden light around a sacred pedestal.",
+      "exits": { "south": "sunken_ruins" },
+      "items": [
+        {
+          "name": "Sunstone Relic",
+          "description": "A brilliant gemstone said to hold the desert’s ancient power. It hums softly in your hands.",
+          "usable_on": "ancient_gate",
+          "item_type": "Quest"
+        }
+      ],
+      "enemy": null,
+      "x": 3,
+      "y": -1
+    }
+  }
+}

@@ -3,30 +3,51 @@
     "Goblin": {
       "name": "Goblin",
       "description": "A sneaky little creature with a rusty dagger.",
-      "health": 25,
-      "attack": 6,
-      "xp_reward": 10
+      "health": 20,
+      "attack": 4,
+      "xp_reward": 12
     },
     "Skeleton": {
       "name": "Skeleton",
       "description": "A reanimated warrior of bone and rage.",
-      "health": 40,
-      "attack": 8,
-      "xp_reward": 15
+      "health": 25,
+      "attack": 6,
+      "xp_reward": 18
     },
     "Forest Wolf": {
       "name": "Forest Wolf",
       "description": "A wild wolf that stalks the forest. Quick and dangerous.",
-      "health": 30,
-      "attack": 10,
-      "xp_reward": 12
+      "health": 20,
+      "attack": 8,
+      "xp_reward": 24
     },
     "Bandit": {
       "name": "Bandit",
       "description": "A rogue human who preys on travelers.",
       "health": 35,
-      "attack": 9,
-      "xp_reward": 15
+      "attack": 12,
+      "xp_reward": 36
+    },
+    "Sand Raider": {
+      "name": "Sand Raider",
+      "description": "A desert bandit, skilled with curved blades and ambushes.",
+      "health": 40,
+      "attack": 14,
+      "xp_reward": 42
+    },
+    "Scarab": {
+      "name": "Scarab",
+      "description": "A giant desert beetle with a hard shell. Dangerous in packs.",
+      "health": 65,
+      "attack": 20,
+      "xp_reward": 60
+    },
+    "Guardian Statue": {
+      "name": "Guardian Statue",
+      "description": "An ancient sentinel carved from stone, animated by forgotten magic.",
+      "health": 120,
+      "attack": 25,
+      "xp_reward": 75
     }
   }
 }

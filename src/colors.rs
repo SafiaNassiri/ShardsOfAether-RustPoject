@@ -10,6 +10,7 @@ pub enum MessageType {
     Enemy,
     Action,
     Exit,
+    Success,
 }
 
 // Central function to color text based on type
@@ -22,5 +23,7 @@ pub fn colored_text(message: &str, msg_type: MessageType) -> ColoredString {
         MessageType::Enemy => message.red(),
         MessageType::Action => message.green().bold(),
         MessageType::Exit => message.blue(),
+        MessageType::Success => message.bright_green().bold(),
     }
 }
+

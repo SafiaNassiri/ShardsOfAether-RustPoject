@@ -2,41 +2,43 @@
   "rooms": {
     "tutorial_hall": {
       "id": "tutorial_hall",
-      "description": "Welcome to the Guild Hall! Learn to move by typing north, east, south, or west.",
+      "description": "Hello Adventurer!\nYou have been tasked with recovering the legendary Shards of Aether, ancient relics of immense power.Scattered across mystical lands, these shards must be returned to their rightful altars to restore balance to the realm.\n\nWelcome to the Guild Hall! \n💡 Tip: Type 'help' to see a list of available commands!",
       "items": [
         {
           "name": "map",
           "description": "A simple map showing your starting area.",
-          "usable_on": null,
-          "item_type": "Utility",
-          "power": null
+          "item_type": "Utility"
         }
       ],
-      "exits": { "north": "tutorial_library" }
+      "exits": { "north": "guild_library" },
+      "x": 0,
+      "y": 0
     },
-    "tutorial_library": {
-      "id": "tutorial_library",
+    "guild_library": {
+      "id": "guild_library",
       "description": "Shelves of dusty books tower above you. You see the Adventurer's Amulet.",
       "items": [
         {
           "name": "Amulet",
           "description": "Your first magical item. Taking this completes the tutorial.",
-          "usable_on": "sacred_altar",
           "item_type": "Quest",
-          "power": null
+          "usable_on": "sacred_altar"
         }
       ],
       "exits": {
         "south": "tutorial_hall",
         "east": "sacred_altar"
-      }
+      },
+      "x": 0,
+      "y": 1
     },
     "sacred_altar": {
       "id": "sacred_altar",
       "description": "An ancient stone altar. A glowing aura fills the room.",
       "items": [],
-      "exits": { "west": "tutorial_library" },
-      "enemy": null
+      "exits": { "west": "guild_library" },
+      "x": 1,
+      "y": 1
     }
   }
 }

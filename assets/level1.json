@@ -8,12 +8,12 @@
         {
           "name": "Healing Herb",
           "description": "A small herb that restores 20 HP when used.",
-          "usable_on": null,
           "item_type": "Healing",
           "power": 20
         }
       ],
-      "enemy": null
+      "x": 0,
+      "y": 0
     },
     "river_bank": {
       "id": "river_bank",
@@ -22,20 +22,22 @@
       "items": [
         {
           "name": "Water Flask",
-          "description": "A flask you can fill at rivers to restore stamina.",
-          "usable_on": null,
-          "item_type": "Utility",
-          "power": null
+          "description": "A flask filled with refreshing water. Restores 20 HP when used.",
+          "item_type": "Healing",
+          "power": 20
         }
       ],
-      "enemy": null
+      "x": 1,
+      "y": 0
     },
     "river_bridge": {
       "id": "river_bridge",
       "description": "A fragile wooden bridge spans the river. You hear rustling in the bushes.",
-      "exits": { "south": "river_bank", "north": "deep_forest" },
+      "exits": { "south": "river_bank", "west": "deep_forest" },
       "items": [],
-      "enemy": "Goblin"
+      "enemy": "Goblin",
+      "x": 1,
+      "y": 1
     },
     "deep_forest": {
       "id": "deep_forest",
@@ -43,47 +45,53 @@
       "exits": {
         "south": "forest_entrance",
         "north": "forest_clearing",
-        "east": "abandoned_cabin"
+        "west": "abandoned_cabin"
       },
       "items": [],
-      "enemy": "Goblin"
+      "enemy": "Goblin",
+      "x": 0,
+      "y": 1
     },
     "abandoned_cabin": {
       "id": "abandoned_cabin",
       "description": "An old wooden cabin. Broken furniture and cobwebs fill the space.",
-      "exits": { "west": "deep_forest" },
+      "exits": { "east": "deep_forest" },
       "items": [
         {
           "name": "Torch",
           "description": "Can light dark areas or scare some enemies.",
-          "usable_on": null,
-          "item_type": "Utility",
-          "power": null
+          "item_type": "Utility"
         },
         {
           "name": "Old Key",
           "description": "An ancient key. Who knows what it opens?",
           "usable_on": "locked_chest",
-          "item_type": "Quest",
-          "power": null
+          "item_type": "Quest"
         }
       ],
-      "enemy": "Skeleton"
+      "enemy": "Skeleton",
+      "x": 1,
+      "y": 2
     },
     "forest_clearing": {
       "id": "forest_clearing",
       "description": "A sunlit clearing opens before you. The air feels strange.",
-      "exits": { "south": "deep_forest", "east": "mystic_pond" },
+      "exits": {
+        "south": "deep_forest",
+        "east": "mystic_pond",
+        "west": "sacred_altar"
+      },
       "items": [
         {
           "name": "Rusty Sword",
           "description": "An old sword left by another adventurer. Increases attack.",
-          "usable_on": null,
           "item_type": "Weapon",
           "power": 5
         }
       ],
-      "enemy": "Skeleton"
+      "enemy": "Skeleton",
+      "x": 0,
+      "y": 2
     },
     "mystic_pond": {
       "id": "mystic_pond",
@@ -94,18 +102,19 @@
           "name": "Mystic Amulet",
           "description": "A glowing amulet. Seems important for your quest.",
           "usable_on": "sacred_altar",
-          "item_type": "Quest",
-          "power": null
+          "item_type": "Quest"
         }
       ],
-      "enemy": null
+      "x": 1,
+      "y": 2
     },
     "sacred_altar": {
       "id": "sacred_altar",
       "description": "An ancient stone altar. A glowing aura fills the room.",
-      "exits": { "south": "forest_clearing" },
+      "exits": { "east": "forest_clearing" },
       "items": [],
-      "enemy": null
+      "x": -1,
+      "y": 2
     }
   }
 }
