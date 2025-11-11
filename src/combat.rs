@@ -1,5 +1,6 @@
 use crate::player::Player;
 use crate::enemies::Enemy;
+use crate::items::ItemType; 
 
 pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str) -> bool {
     println!("You encounter a {}!", enemy.name);
@@ -22,7 +23,7 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
             }
             "heal" => {
                 // Find first Healing item in inventory
-                if let Some(pos) = player.inventory.iter().position(|i| matches!(i.item_type, crate::world::ItemType::Healing)) {
+                if let Some(pos) = player.inventory.iter().position(|i| matches!(i.item_type, ItemType::Healing)) {
                     let item = player.inventory.remove(pos);
                     if let Some(amount) = item.power {
                         player.health += amount;

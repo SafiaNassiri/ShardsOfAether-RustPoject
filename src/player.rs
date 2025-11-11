@@ -1,17 +1,18 @@
 use serde::{Serialize, Deserialize};
-use crate::world::Item;
+use crate::items::Item;
 
 #[derive(Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Player {
     pub name: String,
     pub current_room: String,
     pub inventory: Vec<Item>,
     pub health: i32,
     pub mana: i32,
-    pub xp: i32,
-    pub level: i32,
-    pub base_attack: i32,
     pub flags: Vec<String>,
+    pub base_attack: i32,
+    pub level: i32,
+    pub xp: i32,
 }
 
 #[allow(dead_code)]

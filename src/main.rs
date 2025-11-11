@@ -1,21 +1,22 @@
 mod commands;
 mod player;
-mod storage;
 mod utils;
 mod world;
 mod combat;
 mod enemies;
 mod colors;
+mod save_load;
+mod items;
 
 use std::error::Error;
 use std::io::{stdout, Write};
 
-use commands::{parse_command, Command};
+use commands::{parse_command, Command, print_help};
 use player::Player;
-use storage::{load_game, load_world, save_game};
 use utils::get_input;
 use enemies::load_enemies;
 use colors::{MessageType, colored_text};
+use save_load::{save_game, load_game, load_world};
 
 fn main() {
     // --- Load dynamic data ---
@@ -48,49 +49,54 @@ fn main() {
         let command = parse_command(&input);
 
         match command {
+            Command::Help => print_help(),
             Command::Go(dir) => world::move_player(dir, &mut player, &mut world),
             Command::Look => world::look(&player, &world),
+
             Command::Take(item) => {
                 world::take_item(&item, &mut player, &mut world);
 
-                // Tutorial completion triggers Level 1 load
-                if player.flags.contains(&"tutorial_completed".to_string())
-                    && !player.flags.contains(&"level1_loaded".to_string())
-                {
-                    println!("{}", colored_text("\n✨ Tutorial complete! Loading Level 1 ...", MessageType::Info));
-                    player.flags.push("level1_loaded".to_string());
+                // Check for tutorial completion after picking up quest items
+                handle_level_progression(&mut player, &mut world);
+            }
 
-                    // Load Level 1 explicitly
-                    world = load_world("assets/level1.json").expect("Failed to load Level 1");
+            Command::Use(item) => {
+                let completed = world::use_item(&item, &mut player, &mut world);
 
-                    // Move player to starting room of Level 1
-                    player.current_room = "forest_entrance".to_string();
-                    world::look(&player, &world);
+                // If using the item completes the level
+                if completed {
+                    handle_level_progression(&mut player, &mut world);
                 }
             }
-            Command::Use(item) => world::use_item(&item, &mut player, &world),
+
             Command::Inventory => {
                 let inventory_display = player
                     .inventory
                     .iter()
-                    .map(|i| i.name.as_str()) // convert &String -> &str
+                    .map(|i| i.name.as_str())
                     .collect::<Vec<_>>()
                     .join(", ");
                 println!("{}", colored_text(&format!("Inventory: [{}]", inventory_display), MessageType::Item));
             }
+
             Command::Save => {
-                save_game(&player, "save.json").unwrap();
+                save_game(&player, &world, "save.json").unwrap();
                 println!("{}", colored_text("Game saved!", MessageType::Info));
             }
+
             Command::Load => {
-                load_game(&mut player, "save.json").unwrap();
+                load_game(&mut player, &mut world, "save.json").unwrap();
                 println!("{}", colored_text("Game loaded!", MessageType::Info));
             }
+
             Command::Quit => {
                 println!("{}", colored_text("Farewell, brave adventurer!", MessageType::Info));
                 break;
             }
-            Command::Unknown(cmd) => println!("{}", colored_text(&format!("Unknown command: {}", cmd), MessageType::Warning)),
+
+            Command::Unknown(cmd) => {
+                println!("{}", colored_text(&format!("Unknown command: {}", cmd), MessageType::Warning));
+            }
         }
     }
 }
@@ -103,5 +109,33 @@ fn load_level(player: &Player) -> Result<world::World, Box<dyn Error>> {
         Ok(load_world("assets/level1.json")?)
     } else {
         Ok(load_world("assets/world.json")?)
+    }
+}
+
+/// Handles level progression and automatically loads next level when appropriate
+fn handle_level_progression(player: &mut Player, world: &mut world::World) {
+    // Tutorial → Level 1
+    if player.flags.contains(&"tutorial_completed".to_string())
+        && !player.flags.contains(&"level1_loaded".to_string())
+    {
+        println!("{}", colored_text("\n✨ Tutorial complete! Loading Level 1 ...", MessageType::Info));
+        player.flags.push("level1_loaded".to_string());
+
+        *world = load_world("assets/level1.json").expect("Failed to load Level 1");
+        player.current_room = "forest_entrance".to_string();
+        world::look(player, world);
+    }
+
+    // Level 1 → Full game world (example, extend as needed)
+    if player.flags.contains(&"level1_completed".to_string())
+        && !player.flags.contains(&"world_loaded".to_string())
+    {
+        println!("{}", colored_text("\n✨ Level 1 complete! Loading full world ...", MessageType::Info));
+        player.flags.push("world_loaded".to_string());
+
+        *world = load_world("assets/world.json").expect("Failed to load main world");
+        // Set starting room for main world
+        player.current_room = "starting_village".to_string();
+        world::look(player, world);
     }
 }
