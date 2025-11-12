@@ -151,6 +151,7 @@
                         player.base_attack += dmg;
                         println!("⚔️ Equipped {}! Attack +{}", item.name, dmg);
                     }
+                    player.inventory.remove(pos);
                 }
 
                 ItemType::Quest => {

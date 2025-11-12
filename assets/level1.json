@@ -24,7 +24,7 @@
           "name": "Water Flask",
           "description": "A flask filled with refreshing water. Restores 20 HP when used.",
           "item_type": "Healing",
-          "power": 20
+          "power": 3
         }
       ],
       "x": 1,
@@ -58,15 +58,10 @@
       "exits": { "east": "deep_forest" },
       "items": [
         {
-          "name": "Torch",
-          "description": "Can light dark areas or scare some enemies.",
-          "item_type": "Utility"
-        },
-        {
-          "name": "Old Key",
-          "description": "An ancient key. Who knows what it opens?",
-          "usable_on": "locked_chest",
-          "item_type": "Quest"
+          "name": "Old Necklace",
+          "description": "An ancient Necklace. Increases your attack by 1",
+          "item_type": "Weapon",
+          "power": 1
         }
       ],
       "enemy": "Skeleton",
@@ -99,8 +94,8 @@
       "exits": { "west": "forest_clearing" },
       "items": [
         {
-          "name": "Mystic Amulet",
-          "description": "A glowing amulet. Seems important for your quest.",
+          "name": "Emmerald Effigy",
+          "description": "An Effigy of the Old Ones. Bejewled with emerald ems in its eyes. It seems to glow with unnatural light",
           "usable_on": "sacred_altar",
           "item_type": "Quest"
         }
@@ -110,7 +105,7 @@
     },
     "sacred_altar": {
       "id": "sacred_altar",
-      "description": "An ancient stone altar. A glowing aura fills the room.",
+      "description": "An ancient stone altar. A glowing aura fills the room. On the pedestal tehre seems to be an implint for a small sculpture.",
       "exits": { "east": "forest_clearing" },
       "items": [],
       "x": -1,

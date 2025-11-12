@@ -7,8 +7,9 @@
       "items": [
         {
           "name": "Sand Cloak",
-          "description": "A light cloak that protects you from the desert heat. Slightly increases defense.",
-          "item_type": "Utility"
+          "description": "A light cloak that protects you from the desert heat. Slightly increases attack by 3.",
+          "item_type": "Weapon",
+          "power": 3
         }
       ],
       "enemy": null,
@@ -64,23 +65,23 @@
       "id": "ancient_gate",
       "description": "A colossal sandstone gate stands half-buried. Runes glow faintly on its surface.",
       "exits": { "west": "dune_passage", "east": "sunken_ruins" },
-      "items": [
-        {
-          "name": "Golden Key",
-          "description": "A heavy, ornate key that radiates warmth. It seems to fit something ancient.",
-          "usable_on": "sunken_ruins",
-          "item_type": "Quest"
-        }
-      ],
+      "items": [],
       "enemy": "Scarab",
       "x": 2,
       "y": 0
     },
     "sunken_ruins": {
       "id": "sunken_ruins",
-      "description": "Collapsed pillars and carvings of forgotten gods surround you. Sand trickles from the ceiling.",
+      "description": "Collapsed pillars and carvings of forgotten gods surround you. Sand trickles from the ceiling. A golden gate stands before half buried in teh sands.",
       "exits": { "west": "ancient_gate", "north": "crystal_chamber" },
-      "items": [],
+      "items": [
+        {
+          "name": "Dagger of time",
+          "description": "A curved dagger forged in a tim long since passed. As you touch it you feel the power surge through you.\nIncreases attack by 15.",
+          "item_type": "Weapon",
+          "power": 15
+        }
+      ],
       "enemy": "Guardian Statue",
       "x": 3,
       "y": 0
@@ -92,7 +93,7 @@
       "items": [
         {
           "name": "Sunstone Relic",
-          "description": "A brilliant gemstone said to hold the desert’s ancient power. It hums softly in your hands.",
+          "description": "A brilliant gemstone said to hold the desert’s ancient power. It hums softly in your hands with an unnatural glow to it.",
           "usable_on": "ancient_gate",
           "item_type": "Quest"
         }

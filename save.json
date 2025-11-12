@@ -1,0 +1,160 @@
+{
+  "player": {
+    "name": "Hero",
+    "health": 100,
+    "mana": 50,
+    "xp": 0,
+    "level": 1,
+    "base_attack": 10,
+    "current_room": "river_bank",
+    "inventory": [
+      {
+        "name": "map",
+        "item_type": "Utility",
+        "power": null,
+        "usable_on": null
+      },
+      {
+        "name": "Healing Herb",
+        "item_type": "Healing",
+        "power": 20,
+        "usable_on": null
+      },
+      {
+        "name": "Water Flask",
+        "item_type": "Healing",
+        "power": 3,
+        "usable_on": null
+      }
+    ],
+    "flags": [
+      "tutorial_completed",
+      "level1_loaded"
+    ],
+    "current_level": 1
+  },
+  "world": {
+    "rooms": {
+      "river_bridge": {
+        "id": "river_bridge",
+        "description": "A fragile wooden bridge spans the river. You hear rustling in the bushes.",
+        "items": [],
+        "exits": {
+          "south": "river_bank",
+          "west": "deep_forest"
+        },
+        "enemy": "Goblin",
+        "x": 1,
+        "y": 1
+      },
+      "abandoned_cabin": {
+        "id": "abandoned_cabin",
+        "description": "An old wooden cabin. Broken furniture and cobwebs fill the space.",
+        "items": [
+          {
+            "name": "Old Necklace",
+            "item_type": "Weapon",
+            "power": null,
+            "usable_on": null
+          }
+        ],
+        "exits": {
+          "east": "deep_forest"
+        },
+        "enemy": "Skeleton",
+        "x": 1,
+        "y": 2
+      },
+      "deep_forest": {
+        "id": "deep_forest",
+        "description": "The forest thickens here. Shadows move between the trees.",
+        "items": [],
+        "exits": {
+          "west": "abandoned_cabin",
+          "south": "forest_entrance",
+          "north": "forest_clearing"
+        },
+        "enemy": "Goblin",
+        "x": 0,
+        "y": 1
+      },
+      "forest_entrance": {
+        "id": "forest_entrance",
+        "description": "You step into the lush forest. Birds chirp in the trees.",
+        "items": [],
+        "exits": {
+          "north": "deep_forest",
+          "east": "river_bank"
+        },
+        "enemy": null,
+        "x": 0,
+        "y": 0
+      },
+      "sacred_altar": {
+        "id": "sacred_altar",
+        "description": "An ancient stone altar. A glowing aura fills the room. On the pedestal tehre seems to be an implint for a small sculpture.",
+        "items": [],
+        "exits": {
+          "east": "forest_clearing"
+        },
+        "enemy": null,
+        "x": -1,
+        "y": 2
+      },
+      "mystic_pond": {
+        "id": "mystic_pond",
+        "description": "A serene pond glows with magical energy. Something shimmers in the water.",
+        "items": [
+          {
+            "name": "Emmerald Effigy",
+            "item_type": "Quest",
+            "power": null,
+            "usable_on": "sacred_altar"
+          }
+        ],
+        "exits": {
+          "west": "forest_clearing"
+        },
+        "enemy": null,
+        "x": 1,
+        "y": 2
+      },
+      "river_bank": {
+        "id": "river_bank",
+        "description": "A gently flowing river blocks your path east. The water looks clear.",
+        "items": [],
+        "exits": {
+          "north": "river_bridge",
+          "west": "forest_entrance"
+        },
+        "enemy": null,
+        "x": 1,
+        "y": 0
+      },
+      "forest_clearing": {
+        "id": "forest_clearing",
+        "description": "A sunlit clearing opens before you. The air feels strange.",
+        "items": [
+          {
+            "name": "Rusty Sword",
+            "item_type": "Weapon",
+            "power": 5,
+            "usable_on": null
+          }
+        ],
+        "exits": {
+          "west": "sacred_altar",
+          "south": "deep_forest",
+          "east": "mystic_pond"
+        },
+        "enemy": "Skeleton",
+        "x": 0,
+        "y": 2
+      }
+    },
+    "cleared_rooms": [
+      "forest_entrance",
+      "river_bank"
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 use crate::player::Player;
 use crate::enemies::Enemy;
 use crate::items::ItemType;
+use std::process;
 
 pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str) -> bool {
     println!("⚔️ You encounter a {}!", enemy.name);
@@ -15,7 +16,7 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
 
         let action = crate::utils::get_input().to_lowercase();
 
-        match action.as_str() {
+        let valid_action = match action.as_str() {
             "attack" => {
                 let damage = player.attack_damage();
                 enemy.health -= damage;
@@ -24,16 +25,14 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
                 if enemy.health <= 0 {
                     println!("🎉 You defeated the {}!", enemy.name);
 
-                    // Award XP on victory
-                    let xp_gain = enemy.attack * 5; // XP reward scales by enemy strength
+                    let xp_gain = enemy.attack * 5;
                     player.add_xp(xp_gain);
-
-                    return false; // combat over, not running
+                    return false;
                 }
+                true
             }
 
             "heal" => {
-                // Find first Healing item in inventory
                 if let Some(pos) = player
                     .inventory
                     .iter()
@@ -52,31 +51,48 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
                 } else {
                     println!("You have no healing items!");
                 }
+                true
             }
 
             "defend" => {
                 println!("🛡️ You brace yourself!");
-                // Optional: reduce next enemy attack by half
+                true
             }
 
             "run" => {
                 println!("🏃 You flee from the battle!");
-                player.current_room = previous_room.to_string(); // move back
-                return true; // signal that player ran away
+                player.current_room = previous_room.to_string();
+                return true;
             }
 
-            _ => println!("Unknown action. Type attack / heal / defend / run."),
-        }
+            _ => {
+                println!("Unknown action. Type attack / heal / defend / run.");
+                false // mark as invalid so enemy doesn’t attack
+            }
+        };
 
-        // Enemy attacks if still alive
-        if enemy.health > 0 {
-            let damage = enemy.attack; // can be modified by player defense logic
+        // Only attack if player did something valid and enemy is alive
+        if valid_action && enemy.health > 0 {
+            let damage = enemy.attack;
             player.health -= damage;
             println!("The {} attacks you for {} damage!", enemy.name, damage);
 
             if player.health <= 0 {
-                println!("💀 You have been defeated!");
-                return false; // combat ends
+                println!("\n💀 You have been defeated!\n");
+                println!(
+"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⣶⡆⠀⣰⣿⠇⣾⡿⠛⠉⠁
+⠀⣠⣴⠾⠿⠿⠀⢀⣾⣿⣆⣀⣸⣿⣷⣾⣿⡿⢸⣿⠟⢓⠀⠀
+⣴⡟⠁⣀⣠⣤⠀⣼⣿⠾⣿⣻⣿⠃⠙⢫⣿⠃⣿⡿⠟⠛⠁⠀
+⢿⣝⣻⣿⡿⠋⠾⠟⠁⠀⠹⠟⠛⠀⠀⠈⠉⠀⠉⠀⠀⠀⠀⠀
+⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⣀⢀⣠⣤⣴⣤⣄⠀
+⠀⠀⠀⠀⣀⣤⣤⢶⣤⠀⠀⢀⣴⢃⣿⠟⠋⢹⣿⣣⣴⡿⠋⠀
+⠀⠀⣰⣾⠟⠉⣿⡜⣿⡆⣴⡿⠁⣼⡿⠛⢃⣾⡿⠋⢻⣇⠀⠀
+⠀⠐⣿⡁⢀⣠⣿⡇⢹⣿⡿⠁⢠⣿⠷⠟⠻⠟⠀⠀⠈⠛⠀⠀
+⠀⠀⠙⠻⠿⠟⠋⠀⠀⠙⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+                );
+                println!("\nGame Over. Thanks for playing Adventurer!\nAnother shall be sent to complete what you have failed in.");
+                process::exit(0);
             }
         }
     }

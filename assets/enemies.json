@@ -45,7 +45,7 @@
     "Guardian Statue": {
       "name": "Guardian Statue",
       "description": "An ancient sentinel carved from stone, animated by forgotten magic.",
-      "health": 120,
+      "health": 240,
       "attack": 25,
       "xp_reward": 75
     }

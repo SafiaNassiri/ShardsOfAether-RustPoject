@@ -6,7 +6,7 @@
       "items": [
         {
           "name": "map",
-          "description": "A simple map showing your starting area.",
+          "description": "A simple map showing your the area.",
           "item_type": "Utility"
         }
       ],
@@ -16,11 +16,11 @@
     },
     "guild_library": {
       "id": "guild_library",
-      "description": "Shelves of dusty books tower above you. You see the Adventurer's Amulet.",
+      "description": "Shelves of dusty books tower above you. You see an amulet on a scribe's desk. An of glow seems to emanates from it.",
       "items": [
         {
-          "name": "Amulet",
-          "description": "Your first magical item. Taking this completes the tutorial.",
+          "name": "Mystical Amulet",
+          "description": "Your first Aether Shard item. Take this to it's Altar to complete the level.",
           "item_type": "Quest",
           "usable_on": "sacred_altar"
         }

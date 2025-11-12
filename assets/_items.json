@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+      "name": "map",
+      "description": "A simple map showing your the area.",
+      "item_type": "Utility"
+    },
+    {
+      "name": "Mystical Amulet",
+      "description": "Your first Aether Shard item. Take this to it's Altar to complete the level.",
+      "item_type": "Quest",
+      "usable_on": "sacred_altar"
+    },
+    {
+      "name": "Healing Herb",
+      "description": "A small herb that restores 20 HP when used.",
+      "item_type": "Healing",
+      "power": 20
+    },
+    {
+      "name": "Water Flask",
+      "description": "A flask you can fill at rivers to restore health.",
+      "item_type": "Healing",
+      "power": 3
+    },
+    {
+      "name": "Old Necklace",
+      "description": "An ancient Necklace. Increases your attack by 1",
+      "item_type": "Weapon",
+      "power": 1
+    },
+    {
+      "name": "Rusty Sword",
+      "description": "An old sword left by another adventurer. Increases attack.",
+      "item_type": "Weapon",
+      "power": 5
+    },
+    {
+      "name": "Emmerald Effigy",
+      "description": "An Effigy of the Old Ones. Bejewled with emerald ems in its eyes. It seems to glow with unnatural light",
+      "usable_on": "sacred_altar",
+      "item_type": "Quest"
+    },
+    {
+      "name": "Sand Cloak",
+      "description": "A light cloak that protects you from the desert heat. Slightly increases attack by 3.",
+      "item_type": "Weapon",
+      "power": 3
+    },
+    {
+      "name": "Healing Water",
+      "description": "Water from the oasis that restores 30 HP.",
+      "item_type": "Healing",
+      "power": 30
+    },
+    {
+      "name": "Scimitar",
+      "description": "A curved blade from distant lands. Increases attack by 15.",
+      "item_type": "Weapon",
+      "power": 15
+    },
+    {
+      "name": "Sunstone Relic",
+      "description": "A brilliant gemstone said to hold the desert’s ancient power. It hums softly in your hands with an unnatural glow to it.",
+      "item_type": "Quest",
+      "usable_on": "ancient_gate",
+      "power": null
+    },
+    {
+      "name": "Dagger of time",
+      "description": "A curved dagger forged in a tim long since passed. As you touch it you feel the power surge through you. Increases attack by 25.",
+      "item_type": "Weapon",
+      "power": 25
+    }
+  ]
+}
