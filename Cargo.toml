@@ -2,13 +2,12 @@
 name = "shards_of_aether"
 version = "0.1.0"
 edition = "2021"
-authors = ["Your Name <your@email.com>"]
-description = "A text adventure RPG prototype built in Rust."
+authors = ["Safia Nassiri <youremail@example.com>"]
+description = "A text-based adventure RPG built in Rust."
 license = "MIT"
-readme = "README.md"
 repository = "https://github.com/SafiaNassiri/ShardsOfAether-RustPoject"
-homepage = "https://github.com/SafiaNassiri/ShardsOfAether-RustPoject"
-keywords = ["text", "adventure", "game", "rpg"]
+readme = "README.md"
+keywords = ["game", "rpg", "text-adventure", "cli"]
 categories = ["games", "command-line-utilities"]
 
 
