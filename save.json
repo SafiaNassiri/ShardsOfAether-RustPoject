@@ -1,153 +1,75 @@
 {
   "player": {
     "name": "Hero",
-    "health": 120,
-    "max_health": 120,
-    "mana": 60,
-    "max_mana": 60,
+    "health": 100,
+    "max_health": 100,
     "xp": 0,
-    "level": 2,
-    "base_attack": 16,
-    "current_room": "desert_edge",
+    "level": 1,
+    "base_attack": 10,
+    "current_room": "sacred_altar",
     "inventory": [
       {
-        "name": "map",
+        "name": "Map",
         "item_type": "Utility",
         "power": null,
         "usable_on": null
       },
       {
-        "name": "Rusty Sword",
-        "item_type": "Weapon",
-        "power": 5,
+        "name": "Training Herb",
+        "item_type": "Healing",
+        "power": 10,
         "usable_on": null
+      },
+      {
+        "name": "Mystical Amulet",
+        "item_type": "Quest",
+        "power": null,
+        "usable_on": "sacred_altar"
       }
     ],
-    "flags": [
-      "tutorial_completed",
-      "level1_loaded",
-      "level1_completed",
-      "level2_loaded"
-    ],
-    "current_level": 2
+    "flags": [],
+    "current_level": 0
   },
   "world": {
     "rooms": {
-      "crystal_chamber": {
-        "id": "crystal_chamber",
-        "description": "A radiant chamber hidden beneath the dunes. Crystals pulse with golden light around a sacred pedestal.",
-        "items": [
-          {
-            "name": "Sunstone Relic",
-            "item_type": "Quest",
-            "power": null,
-            "usable_on": "ancient_gate"
-          }
-        ],
-        "exits": {
-          "south": "sunken_ruins"
-        },
-        "enemy": null,
-        "x": 3,
-        "y": -1
-      },
-      "desert_edge": {
-        "id": "desert_edge",
-        "description": "You arrive at the edge of a vast golden desert. The wind carries whispers of forgotten songs.",
+      "tutorial_hall": {
+        "id": "tutorial_hall",
+        "description": "Hello Adventurer!\nYou have been tasked with recovering the legendary Shards of Aether, ancient relics of immense power. Scattered across mystical lands, these shards must be returned to their rightful altars to restore balance to the realm.\n\nWelcome to the Guild Hall!\n💡 Tip: Type 'help' to see a list of available commands!",
         "items": [],
         "exits": {
-          "east": "dune_passage",
-          "south": "oasis"
+          "north": "guild_library"
         },
         "enemy": null,
         "x": 0,
         "y": 0
       },
-      "oasis": {
-        "id": "oasis",
-        "description": "Palm trees surround a glimmering pool. The air is cool and refreshing here.",
-        "items": [
-          {
-            "name": "Healing Water",
-            "item_type": "Healing",
-            "power": 30,
-            "usable_on": null
-          }
-        ],
+      "guild_library": {
+        "id": "guild_library",
+        "description": "Shelves of dusty books tower above you. You see an amulet on a scribe's desk. A soft glow seems to emanate from it.",
+        "items": [],
         "exits": {
-          "north": "desert_edge",
-          "east": "abandoned_camp"
+          "east": "sacred_altar",
+          "south": "tutorial_hall"
         },
         "enemy": null,
         "x": 0,
         "y": 1
       },
-      "abandoned_camp": {
-        "id": "abandoned_camp",
-        "description": "Torn tents and scattered pottery lie half-buried in sand. Someone fled in a hurry.",
-        "items": [
-          {
-            "name": "Scimitar",
-            "item_type": "Weapon",
-            "power": 8,
-            "usable_on": null
-          }
-        ],
+      "sacred_altar": {
+        "id": "sacred_altar",
+        "description": "An ancient stone altar. A glowing aura fills the room.",
+        "items": [],
         "exits": {
-          "north": "dune_passage",
-          "west": "oasis"
+          "west": "guild_library"
         },
-        "enemy": "Sand Raider",
+        "enemy": null,
         "x": 1,
         "y": 1
-      },
-      "ancient_gate": {
-        "id": "ancient_gate",
-        "description": "A colossal sandstone gate stands half-buried. Runes glow faintly on its surface.",
-        "items": [],
-        "exits": {
-          "east": "sunken_ruins",
-          "west": "dune_passage"
-        },
-        "enemy": "Scarab",
-        "x": 2,
-        "y": 0
-      },
-      "dune_passage": {
-        "id": "dune_passage",
-        "description": "Tall dunes surround you. The heat is blinding, and the ground shifts beneath your feet.",
-        "items": [],
-        "exits": {
-          "east": "ancient_gate",
-          "west": "desert_edge",
-          "south": "abandoned_camp"
-        },
-        "enemy": "Scarab",
-        "x": 1,
-        "y": 0
-      },
-      "sunken_ruins": {
-        "id": "sunken_ruins",
-        "description": "Collapsed pillars and carvings of forgotten gods surround you. Sand trickles from the ceiling. A golden gate stands before half buried in teh sands.",
-        "items": [
-          {
-            "name": "Dagger of time",
-            "item_type": "Weapon",
-            "power": 15,
-            "usable_on": null
-          }
-        ],
-        "exits": {
-          "west": "ancient_gate",
-          "north": "crystal_chamber"
-        },
-        "enemy": "Guardian Statue",
-        "x": 3,
-        "y": 0
       }
     },
     "cleared_rooms": [
-      "desert_edge"
+      "tutorial_hall",
+      "guild_library"
     ]
   }
 }

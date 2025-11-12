@@ -1,6 +1,6 @@
 [package]
 name = "shards_of_aether"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = ["Safia Nassiri <youremail@example.com>"]
 description = "A text-based adventure RPG built in Rust."

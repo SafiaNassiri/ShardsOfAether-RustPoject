@@ -5,8 +5,8 @@
       "description": "You enter the Sanctum of Aether. All the shards, relics, and mystical amulets glow peacefully. You did it! The Realm is safe.",
       "items": [
         {
-          "name": "Shards of Aether",
-          "description": "The collected shards shimmer in unison.",
+          "name": "Emerald Effigy",
+          "description": "An Effigy of the Old Ones. Bejeweled with emerald gems in its eyes. It seems to glow with unnatural light",
           "item_type": "Quest"
         },
         {
