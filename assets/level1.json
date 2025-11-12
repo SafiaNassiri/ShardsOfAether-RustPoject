@@ -22,7 +22,7 @@
       "items": [
         {
           "name": "Water Flask",
-          "description": "A flask filled with refreshing water. Restores 20 HP when used.",
+          "description": "A flask filled with refreshing water. Restores 3 HP when used.",
           "item_type": "Healing",
           "power": 3
         }
@@ -94,8 +94,8 @@
       "exits": { "west": "forest_clearing" },
       "items": [
         {
-          "name": "Emarld Effigy",
-          "description": "An Effigy of the Old Ones. Bejewled with emerald ems in its eyes. It seems to glow with unnatural light",
+          "name": "Emerald Effigy",
+          "description": "An Effigy of the Old Ones. Bejeweled with emerald gems in its eyes. It seems to glow with unnatural light",
           "usable_on": "sacred_altar",
           "item_type": "Quest"
         }
@@ -105,7 +105,7 @@
     },
     "sacred_altar": {
       "id": "sacred_altar",
-      "description": "An ancient stone altar. A glowing aura fills the room. On the pedestal tehre seems to be an implint for a small sculpture.",
+      "description": "An ancient stone altar. A glowing aura fills the room. On the pedestal there seems to be an indent for a small sculpture.",
       "exits": { "east": "forest_clearing" },
       "items": [],
       "x": -1,

@@ -2,12 +2,18 @@
   "rooms": {
     "tutorial_hall": {
       "id": "tutorial_hall",
-      "description": "Hello Adventurer!\nYou have been tasked with recovering the legendary Shards of Aether, ancient relics of immense power.Scattered across mystical lands, these shards must be returned to their rightful altars to restore balance to the realm.\n\nWelcome to the Guild Hall! \n💡 Tip: Type 'help' to see a list of available commands!",
+      "description": "Hello Adventurer!\nYou have been tasked with recovering the legendary Shards of Aether, ancient relics of immense power. Scattered across mystical lands, these shards must be returned to their rightful altars to restore balance to the realm.\n\nWelcome to the Guild Hall!\n💡 Tip: Type 'help' to see a list of available commands!",
       "items": [
         {
-          "name": "map",
-          "description": "A simple map showing your the area.",
+          "name": "Map",
+          "description": "A simple map showing the surrounding area.",
           "item_type": "Utility"
+        },
+        {
+          "name": "Training Herb",
+          "description": "A small herb that restores 10 HP.",
+          "item_type": "Healing",
+          "power": 10
         }
       ],
       "exits": { "north": "guild_library" },
@@ -16,11 +22,11 @@
     },
     "guild_library": {
       "id": "guild_library",
-      "description": "Shelves of dusty books tower above you. You see an amulet on a scribe's desk. An of glow seems to emanates from it.",
+      "description": "Shelves of dusty books tower above you. You see an amulet on a scribe's desk. A soft glow seems to emanate from it.",
       "items": [
         {
           "name": "Mystical Amulet",
-          "description": "Your first Aether Shard item. Take this to it's Altar to complete the level.",
+          "description": "Your first Aether Shard item. Take this to its Altar to complete the level.",
           "item_type": "Quest",
           "usable_on": "sacred_altar"
         }

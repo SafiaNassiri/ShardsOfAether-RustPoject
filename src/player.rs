@@ -6,8 +6,6 @@ pub struct Player {
     pub name: String,
     pub health: i32,
     pub max_health: i32,
-    pub mana: i32,
-    pub max_mana: i32,
     pub xp: i32,
     pub level: i32,
     pub base_attack: i32,
@@ -23,8 +21,6 @@ impl Player {
             name: "Hero".to_string(),
             health: 100,
             max_health: 100,
-            mana: 50,
-            max_mana: 50,
             xp: 0,
             level: 1,
             base_attack: 10,
@@ -58,16 +54,14 @@ impl Player {
 
         // Stat increases per level
         self.max_health += 20;
-        self.max_mana += 10;
         self.base_attack += 3;
 
-        // Restore some health & mana on level-up
+        // Restore health on level-up
         self.health = self.max_health;
-        self.mana = self.max_mana;
 
         println!(
-            "🎉 You reached Level {}!\n❤️ Health restored to {}!\n🔮 Mana restored to {}!\n⚔️ Attack power increased!",
-            self.level, self.max_health, self.max_mana
+            "🎉 You reached Level {}!\n❤️ Health restored to {}!\n⚔️ Attack power increased!",
+            self.level, self.max_health
         );
     }
 

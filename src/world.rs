@@ -137,7 +137,13 @@
             match item.item_type {
                 ItemType::Healing => {
                     if let Some(amount) = item.power {
-                        player.heal(amount);
+                        player.health += amount;
+                        println!(
+                            "💖 You use {} and restore {} HP! Current HP: {}",
+                            item.name, amount, player.health
+                        );
+                    } else {
+                        println!("💖 You use {}, but it had no effect.", item.name);
                     }
                     player.inventory.remove(pos);
                 }

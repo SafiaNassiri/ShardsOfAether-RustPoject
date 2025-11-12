@@ -1,5 +1,6 @@
 pub enum Command {
     Help,
+    Status,
     Go(String),
     Look,
     Take(String),
@@ -18,6 +19,7 @@ pub fn parse_command(input: &str) -> Command {
 
     match cmd.as_str() {
         "help" => Command::Help,
+        "status" => Command::Status,
         "go" | "move" => Command::Go(arg),
         "look" => Command::Look,
         "take" => Command::Take(arg),
@@ -33,6 +35,7 @@ pub fn parse_command(input: &str) -> Command {
 pub fn print_help() {
     println!("📝 Available Commands:");
     println!("  help             - Show this help message");
+    println!("  status           - Show your current player status");
     println!("  go <direction>   - Move in a direction (north, south, east, west)");
     println!("  look             - Look around the current room");
     println!("  take <item>      - Pick up an item");

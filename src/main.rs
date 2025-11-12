@@ -45,6 +45,7 @@ fn main() {
 
         match command {
             Command::Help => print_help(),
+            Command::Status => print_status(&player),
             Command::Go(dir) => world::move_player(dir, &mut player, &mut world),
             Command::Look => world::look(&player, &world),
 
@@ -168,4 +169,20 @@ fn handle_level_progression(player: &mut Player, world: &mut world::World) {
         player.current_room = "sanctum".to_string();
         world::look(player, world);
     }
+}
+
+pub fn print_status(player: &Player) {
+    println!("{}", colored_text("=== Player Status ===", MessageType::Info));
+    println!("Name: {}", player.name);
+    println!("Level: {} | XP: {}/{}", player.level, player.xp, player.xp_to_next_level());
+    println!("Health: {} ❤️", player.health);
+    println!("Attack: {} ⚔️", player.attack_damage());
+    println!("Current Room: {}", player.current_room);
+
+    let inventory = if player.inventory.is_empty() {
+        "Empty".to_string()
+    } else {
+        player.inventory.iter().map(|i| i.name.clone()).collect::<Vec<_>>().join(", ")
+    };
+    println!("Inventory: [{}]", inventory);
 }
