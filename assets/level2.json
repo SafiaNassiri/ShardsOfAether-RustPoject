@@ -55,6 +55,12 @@
           "description": "A curved blade from distant lands. Increases attack by 8.",
           "item_type": "Weapon",
           "power": 8
+        },
+        {
+          "name": "Sunstone Relic",
+          "description": "A brilliant gemstone said to hold the desert’s ancient power. It hums softly in your hands with an unnatural glow to it.",
+          "usable_on": "ancient_gate",
+          "item_type": "Quest"
         }
       ],
       "enemy": "Sand Raider",
@@ -82,7 +88,7 @@
           "power": 15
         }
       ],
-      "enemy": "Guardian Statue",
+      "enemy": null,
       "x": 3,
       "y": 0
     },
@@ -90,15 +96,8 @@
       "id": "crystal_chamber",
       "description": "A radiant chamber hidden beneath the dunes. Crystals pulse with golden light around a sacred pedestal.",
       "exits": { "south": "sunken_ruins" },
-      "items": [
-        {
-          "name": "Sunstone Relic",
-          "description": "A brilliant gemstone said to hold the desert’s ancient power. It hums softly in your hands with an unnatural glow to it.",
-          "usable_on": "ancient_gate",
-          "item_type": "Quest"
-        }
-      ],
-      "enemy": null,
+      "items": [],
+      "enemy": "Guardian Statue",
       "x": 3,
       "y": -1
     }

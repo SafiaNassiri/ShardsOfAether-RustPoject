@@ -18,7 +18,7 @@ pub struct EnemyData {
     pub enemies: HashMap<String, Enemy>,
 }
 
-// Thread-safe global storage for all enemies
+// Global storage for all enemies
 pub static ENEMY_LIST: Lazy<RwLock<HashMap<String, Enemy>>> = Lazy::new(|| RwLock::new(HashMap::new()));
 
 /// Loads enemies from JSON into global memory

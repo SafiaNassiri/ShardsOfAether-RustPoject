@@ -1,12 +1,14 @@
 {
   "player": {
     "name": "Hero",
-    "health": 100,
-    "mana": 50,
+    "health": 120,
+    "max_health": 120,
+    "mana": 60,
+    "max_mana": 60,
     "xp": 0,
-    "level": 1,
-    "base_attack": 10,
-    "current_room": "river_bank",
+    "level": 2,
+    "base_attack": 16,
+    "current_room": "desert_edge",
     "inventory": [
       {
         "name": "map",
@@ -15,146 +17,137 @@
         "usable_on": null
       },
       {
-        "name": "Healing Herb",
-        "item_type": "Healing",
-        "power": 20,
-        "usable_on": null
-      },
-      {
-        "name": "Water Flask",
-        "item_type": "Healing",
-        "power": 3,
+        "name": "Rusty Sword",
+        "item_type": "Weapon",
+        "power": 5,
         "usable_on": null
       }
     ],
     "flags": [
       "tutorial_completed",
-      "level1_loaded"
+      "level1_loaded",
+      "level1_completed",
+      "level2_loaded"
     ],
-    "current_level": 1
+    "current_level": 2
   },
   "world": {
     "rooms": {
-      "river_bridge": {
-        "id": "river_bridge",
-        "description": "A fragile wooden bridge spans the river. You hear rustling in the bushes.",
-        "items": [],
-        "exits": {
-          "south": "river_bank",
-          "west": "deep_forest"
-        },
-        "enemy": "Goblin",
-        "x": 1,
-        "y": 1
-      },
-      "abandoned_cabin": {
-        "id": "abandoned_cabin",
-        "description": "An old wooden cabin. Broken furniture and cobwebs fill the space.",
+      "crystal_chamber": {
+        "id": "crystal_chamber",
+        "description": "A radiant chamber hidden beneath the dunes. Crystals pulse with golden light around a sacred pedestal.",
         "items": [
           {
-            "name": "Old Necklace",
-            "item_type": "Weapon",
-            "power": null,
-            "usable_on": null
-          }
-        ],
-        "exits": {
-          "east": "deep_forest"
-        },
-        "enemy": "Skeleton",
-        "x": 1,
-        "y": 2
-      },
-      "deep_forest": {
-        "id": "deep_forest",
-        "description": "The forest thickens here. Shadows move between the trees.",
-        "items": [],
-        "exits": {
-          "west": "abandoned_cabin",
-          "south": "forest_entrance",
-          "north": "forest_clearing"
-        },
-        "enemy": "Goblin",
-        "x": 0,
-        "y": 1
-      },
-      "forest_entrance": {
-        "id": "forest_entrance",
-        "description": "You step into the lush forest. Birds chirp in the trees.",
-        "items": [],
-        "exits": {
-          "north": "deep_forest",
-          "east": "river_bank"
-        },
-        "enemy": null,
-        "x": 0,
-        "y": 0
-      },
-      "sacred_altar": {
-        "id": "sacred_altar",
-        "description": "An ancient stone altar. A glowing aura fills the room. On the pedestal tehre seems to be an implint for a small sculpture.",
-        "items": [],
-        "exits": {
-          "east": "forest_clearing"
-        },
-        "enemy": null,
-        "x": -1,
-        "y": 2
-      },
-      "mystic_pond": {
-        "id": "mystic_pond",
-        "description": "A serene pond glows with magical energy. Something shimmers in the water.",
-        "items": [
-          {
-            "name": "Emmerald Effigy",
+            "name": "Sunstone Relic",
             "item_type": "Quest",
             "power": null,
-            "usable_on": "sacred_altar"
+            "usable_on": "ancient_gate"
           }
         ],
         "exits": {
-          "west": "forest_clearing"
+          "south": "sunken_ruins"
         },
         "enemy": null,
-        "x": 1,
-        "y": 2
+        "x": 3,
+        "y": -1
       },
-      "river_bank": {
-        "id": "river_bank",
-        "description": "A gently flowing river blocks your path east. The water looks clear.",
+      "desert_edge": {
+        "id": "desert_edge",
+        "description": "You arrive at the edge of a vast golden desert. The wind carries whispers of forgotten songs.",
         "items": [],
         "exits": {
-          "north": "river_bridge",
-          "west": "forest_entrance"
+          "east": "dune_passage",
+          "south": "oasis"
         },
         "enemy": null,
-        "x": 1,
+        "x": 0,
         "y": 0
       },
-      "forest_clearing": {
-        "id": "forest_clearing",
-        "description": "A sunlit clearing opens before you. The air feels strange.",
+      "oasis": {
+        "id": "oasis",
+        "description": "Palm trees surround a glimmering pool. The air is cool and refreshing here.",
         "items": [
           {
-            "name": "Rusty Sword",
-            "item_type": "Weapon",
-            "power": 5,
+            "name": "Healing Water",
+            "item_type": "Healing",
+            "power": 30,
             "usable_on": null
           }
         ],
         "exits": {
-          "west": "sacred_altar",
-          "south": "deep_forest",
-          "east": "mystic_pond"
+          "north": "desert_edge",
+          "east": "abandoned_camp"
         },
-        "enemy": "Skeleton",
+        "enemy": null,
         "x": 0,
-        "y": 2
+        "y": 1
+      },
+      "abandoned_camp": {
+        "id": "abandoned_camp",
+        "description": "Torn tents and scattered pottery lie half-buried in sand. Someone fled in a hurry.",
+        "items": [
+          {
+            "name": "Scimitar",
+            "item_type": "Weapon",
+            "power": 8,
+            "usable_on": null
+          }
+        ],
+        "exits": {
+          "north": "dune_passage",
+          "west": "oasis"
+        },
+        "enemy": "Sand Raider",
+        "x": 1,
+        "y": 1
+      },
+      "ancient_gate": {
+        "id": "ancient_gate",
+        "description": "A colossal sandstone gate stands half-buried. Runes glow faintly on its surface.",
+        "items": [],
+        "exits": {
+          "east": "sunken_ruins",
+          "west": "dune_passage"
+        },
+        "enemy": "Scarab",
+        "x": 2,
+        "y": 0
+      },
+      "dune_passage": {
+        "id": "dune_passage",
+        "description": "Tall dunes surround you. The heat is blinding, and the ground shifts beneath your feet.",
+        "items": [],
+        "exits": {
+          "east": "ancient_gate",
+          "west": "desert_edge",
+          "south": "abandoned_camp"
+        },
+        "enemy": "Scarab",
+        "x": 1,
+        "y": 0
+      },
+      "sunken_ruins": {
+        "id": "sunken_ruins",
+        "description": "Collapsed pillars and carvings of forgotten gods surround you. Sand trickles from the ceiling. A golden gate stands before half buried in teh sands.",
+        "items": [
+          {
+            "name": "Dagger of time",
+            "item_type": "Weapon",
+            "power": 15,
+            "usable_on": null
+          }
+        ],
+        "exits": {
+          "west": "ancient_gate",
+          "north": "crystal_chamber"
+        },
+        "enemy": "Guardian Statue",
+        "x": 3,
+        "y": 0
       }
     },
     "cleared_rooms": [
-      "forest_entrance",
-      "river_bank"
+      "desert_edge"
     ]
   }
 }

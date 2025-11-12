@@ -13,7 +13,7 @@ pub enum MessageType {
     Success,
 }
 
-// Central function to color text based on type
+// Function to color text based on type
 pub fn colored_text(message: &str, msg_type: MessageType) -> ColoredString {
     match msg_type {
         MessageType::Info => message.white(),

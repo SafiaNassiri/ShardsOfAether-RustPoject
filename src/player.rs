@@ -5,14 +5,16 @@ use crate::items::Item;
 pub struct Player {
     pub name: String,
     pub health: i32,
+    pub max_health: i32,
     pub mana: i32,
+    pub max_mana: i32,
     pub xp: i32,
     pub level: i32,
     pub base_attack: i32,
     pub current_room: String,
     pub inventory: Vec<Item>,
     pub flags: Vec<String>,
-    pub current_level: usize, // level of the world (not XP level)
+    pub current_level: usize,
 }
 
 impl Player {
@@ -20,7 +22,9 @@ impl Player {
         Self {
             name: "Hero".to_string(),
             health: 100,
+            max_health: 100,
             mana: 50,
+            max_mana: 50,
             xp: 0,
             level: 1,
             base_attack: 10,
@@ -31,37 +35,50 @@ impl Player {
         }
     }
 
-    /// XP required for next level
+    // XP needed to reach the next level
     pub fn xp_to_next_level(&self) -> i32 {
-        50 * self.level // scales linearly; tweak to exponential if desired
+        50 * self.level
     }
 
-    /// Called when player gains XP
+    // Adds XP and automatically checks for level up
     pub fn add_xp(&mut self, amount: i32) {
         self.xp += amount;
         println!("✨ You gained {} XP!", amount);
 
-        if self.xp >= self.xp_to_next_level() {
+        // Automatically level up if XP exceeds threshold
+        while self.xp >= self.xp_to_next_level() {
+            self.xp -= self.xp_to_next_level();
             self.level_up();
         }
     }
 
-    /// Handles level-up logic
+    // Level-up stat increases
     pub fn level_up(&mut self) {
         self.level += 1;
-        self.xp = 0;
-        self.health += 20;
-        self.mana += 10;
+
+        // Stat increases per level
+        self.max_health += 20;
+        self.max_mana += 10;
         self.base_attack += 3;
 
+        // Restore some health & mana on level-up
+        self.health = self.max_health;
+        self.mana = self.max_mana;
+
         println!(
-            "🎉 You reached Level {}!\n❤️ Max Health increased!\n🔮 Mana increased!\n⚔️ Attack power improved!",
-            self.level
+            "🎉 You reached Level {}!\n❤️ Health restored to {}!\n🔮 Mana restored to {}!\n⚔️ Attack power increased!",
+            self.level, self.max_health, self.max_mana
         );
     }
 
-    /// Returns player’s damage output (based on attack and XP level)
+    // Damage calculation (scales with level)
     pub fn attack_damage(&self) -> i32 {
         self.base_attack + (self.level * 2)
+    }
+
+    // Ensures HP doesn’t exceed max
+    pub fn heal(&mut self, amount: i32) {
+        self.health = (self.health + amount).min(self.max_health);
+        println!("💖 You recovered {} HP! (Current HP: {}/{})", amount, self.health, self.max_health);
     }
 }

@@ -6,15 +6,18 @@
       "items": [
         {
           "name": "Shards of Aether",
-          "description": "The collected shards shimmer in unison."
+          "description": "The collected shards shimmer in unison.",
+          "item_type": "Quest"
         },
         {
           "name": "Mystic Amulet",
-          "description": "The amulet radiates calm power."
+          "description": "The amulet radiates calm power.",
+          "item_type": "Quest"
         },
         {
           "name": "Ancient Relic",
-          "description": "Dormant now, it lies peacefully."
+          "description": "Dormant now, it lies peacefully.",
+          "item_type": "Quest"
         }
       ],
       "exits": {},

@@ -19,16 +19,11 @@ use colors::{MessageType, colored_text};
 use save_load::{save_game, load_game, load_world};
 
 fn main() {
-    // --- Load dynamic data ---
     let _enemies = load_enemies("assets/enemies.json");
-
-    // --- Initialize player ---
     let mut player = Player::new();
-
-    // --- Load initial world ---
     let mut world = load_level(&player).expect("Failed to load initial world");
 
-    // ✨ Print dynamic banner
+    // Print banner
     print_current_level_banner(&player);
 
     println!(
@@ -40,7 +35,7 @@ fn main() {
     );
     world::look(&player, &world);
 
-    // --- Main game loop ---
+    // === MAIN GAME LOOP ===
     loop {
         print!("{}", colored_text("\n> ", MessageType::Action));
         stdout().flush().unwrap();
@@ -108,11 +103,9 @@ fn main() {
     }
 }
 
-//
-// ─── LEVEL LOADING ─────────────────────────────────────────────
-//
+// === LEVEL LOADING ===
 
-/// Dynamically load the appropriate world file for the player's level
+// Load the appropriate world file for the player's level
 fn load_level(player: &Player) -> Result<world::World, Box<dyn Error>> {
     match player.current_level {
         0 => Ok(load_world("assets/tutorial.json")?),
@@ -120,7 +113,7 @@ fn load_level(player: &Player) -> Result<world::World, Box<dyn Error>> {
     }
 }
 
-/// Display a banner based on current level number
+// Display a banner based on current level number
 fn print_current_level_banner(player: &Player) {
     match player.current_level {
         0 => world::print_transition_banner("Tutorial: The Guild Hall"),
@@ -131,11 +124,8 @@ fn print_current_level_banner(player: &Player) {
     }
 }   
 
-//
-// ─── LEVEL PROGRESSION ─────────────────────────────────────────
-//
+// === LEVEL PROGRESSION ===
 
-/// Automatically advances the player to the next level when a quest completes.
 fn handle_level_progression(player: &mut Player, world: &mut world::World) {
     // Tutorial → Level 1
     if player.flags.contains(&"tutorial_completed".to_string()) 

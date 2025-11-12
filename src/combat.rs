@@ -40,11 +40,7 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
                 {
                     let item = player.inventory.remove(pos);
                     if let Some(amount) = item.power {
-                        player.health += amount;
-                        println!(
-                            "💖 You use {} and restore {} HP! Current HP: {}",
-                            item.name, amount, player.health
-                        );
+                        player.heal(amount);
                     } else {
                         println!("💖 You use {}, but it had no effect.", item.name);
                     }
@@ -67,11 +63,11 @@ pub fn start_combat(player: &mut Player, enemy: &mut Enemy, previous_room: &str)
 
             _ => {
                 println!("Unknown action. Type attack / heal / defend / run.");
-                false // mark as invalid so enemy doesn’t attack
+                false
             }
         };
 
-        // Only attack if player did something valid and enemy is alive
+        // Only attack if player enetered a valid input and enemy is alive
         if valid_action && enemy.health > 0 {
             let damage = enemy.attack;
             player.health -= damage;

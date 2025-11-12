@@ -11,7 +11,6 @@ pub enum Command {
     Unknown(String),
 }
 
-/// Only parses input; does NOT execute game logic!
 pub fn parse_command(input: &str) -> Command {
     let mut parts = input.trim().splitn(2, ' ');
     let cmd = parts.next().unwrap_or("").to_lowercase();

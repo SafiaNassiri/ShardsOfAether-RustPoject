@@ -94,7 +94,7 @@
       "exits": { "west": "forest_clearing" },
       "items": [
         {
-          "name": "Emmerald Effigy",
+          "name": "Emarld Effigy",
           "description": "An Effigy of the Old Ones. Bejewled with emerald ems in its eyes. It seems to glow with unnatural light",
           "usable_on": "sacred_altar",
           "item_type": "Quest"

@@ -30,9 +30,8 @@
         pub cleared_rooms: HashSet<String>,
     }
 
-    //
-    // ─── MOVEMENT ─────────────────────────────────────────────
-    //
+    // === MOVEMENT ===
+
     pub fn move_player(direction: String, player: &mut Player, world: &mut World) {
         if let Some(room) = world.rooms.get(&player.current_room) {
             if let Some(next_room_id) = room.exits.get(&direction) {
@@ -59,7 +58,7 @@
                                 }
                             }
 
-                            // Retreat handling
+                            // Retreat logic
                             if ran_away {
                                 player.current_room = previous_room;
                                 println!("You have escaped back to {}.", player.current_room);
@@ -75,9 +74,8 @@
         }
     }
 
-    //
-    // ─── ROOM DESCRIPTIONS ────────────────────────────────────
-    //
+    // === ROOM DESCRIPTION ===
+    
     pub fn look(player: &Player, world: &World) {
         if let Some(room) = world.rooms.get(&player.current_room) {
             println!("{}", colored_text(&room.id, MessageType::Action));
@@ -104,22 +102,21 @@
         }
     }
 
-    //
-    // ─── ITEM HANDLING ────────────────────────────────────────
-    //
+    // === ITEM HANDLING 
+
     pub fn take_item(item_name: &str, player: &mut Player, world: &mut World) {
+        // Block picking up items in the Sanctum
+        if player.current_room.eq_ignore_ascii_case("sanctum") {
+            println!("You can't take items here. The Shards and relics are protected.");
+            return;
+        }
+
         if let Some(room) = world.rooms.get_mut(&player.current_room) {
             if let Some(pos) = room.items.iter().position(|i| i.name.eq_ignore_ascii_case(item_name)) {
                 let item = room.items.remove(pos);
                 println!("You picked up: {}", colored_text(&item.name, MessageType::Item));
                 player.inventory.push(item.clone());
 
-                // Flag: picked up Amulet
-                if item.name.eq_ignore_ascii_case("Amulet") {
-                    println!("✨ You picked up the Amulet. Bring it to the Sacred Altar to activate it.");
-                }
-
-                // Mark this room as cleared
                 world.cleared_rooms.insert(player.current_room.clone());
             } else {
                 println!("There is no {} here.", item_name);
@@ -140,8 +137,7 @@
             match item.item_type {
                 ItemType::Healing => {
                     if let Some(amount) = item.power {
-                        player.health += amount;
-                        println!("💖 You restore {} HP! (Now at {})", amount, player.health);
+                        player.heal(amount);
                     }
                     player.inventory.remove(pos);
                 }
@@ -166,9 +162,7 @@
                             player.inventory.remove(pos);
                             world.cleared_rooms.insert(player.current_room.clone());
 
-                            //
-                            // LEVEL COMPLETION LOGIC
-                            //
+                            // === LEVEL COMPLETION LOGIC
 
                             // Tutorial end → Level 1
                             if player.current_level == 0
@@ -229,9 +223,8 @@
         level_completed
     }
 
-    //
-    // ─── MAP RENDERING WITH FIXED COORDINATES ─────────────────
-    //
+    // === MAP RENDERING ===
+
     pub fn print_map(player: &Player, world: &World) {
         println!("--- Map ---");
 
@@ -297,9 +290,8 @@
         println!("-----------");
     }
 
-    //
-    // ─── LEVEL TRANSITION BANNER ─────────────────────────────
-    //
+    // === LEVEL TRANSITION BANNER ===
+    
     pub fn print_transition_banner(title: &str) {
         let padding = 6;
         let inner_width = title.len() + padding * 2;
