@@ -156,6 +156,7 @@ cargo run
 
 ```text
 go north
+status
 look
 inventory
 use potion
